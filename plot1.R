@@ -1,6 +1,6 @@
 DATAdown <- "./data/household_power_consumption.txt"
-DATAread <- read.table(dataFile, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
-SUBdata <- data[data$Date %in% c("1/2/2007","2/2/2007") ,]
+DATAread <- read.table(DATAdown, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
+SUBdata <-DATAdown[DATAdown$Date %in% c("1/2/2007","2/2/2007") ,]
 
 globalActivePower <- as.numeric(SUBdata$Global_active_power)
 png("plot1.png", width=480, height=480)
