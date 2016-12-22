@@ -1,26 +1,16 @@
-## Getting full dataset
-data_full <- read.csv("./Data/household_power_consumption.txt", header=T, sep=';', na.strings="?", 
-                      nrows=2075259, check.names=F, stringsAsFactors=F, comment.char="", quote='\"')
-data_full$Date <- as.Date(data_full$Date, format="%d/%m/%Y")
+DATAdown <- "./data/household_power_consumption.txt"
+DATAread<- read.table(dataFile, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
+SUBdata <- data[data$Date %in% c("1/2/2007","2/2/2007") ,]
 
-## Subsetting the data
-data <- subset(data_full, subset=(Date >= "2007-02-01" & Date <= "2007-02-02"))
-rm(data_full)
+datetime <- strptime(paste(SUBdata$Date, SUBdata$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
+globalActivePower <- as.numeric(SUBdata$Global_active_power)
+SUBmet1 <- as.numeric(SUBdata$Sub_met_1)
+SUBmet2 <- as.numeric(SUBdata$Sub_met_2)
+SUBmet3 <- as.numeric(SUBdata$Sub_met_3)
 
-## Converting dates
-datetime <- paste(as.Date(data$Date), data$Time)
-data$Datetime <- as.POSIXct(datetime)
-
-## Plot 3
-with(data, {
-    plot(Sub_metering_1~Datetime, type="l",
-         ylab="Global Active Power (kilowatts)", xlab="")
-    lines(Sub_metering_2~Datetime,col='Red')
-    lines(Sub_metering_3~Datetime,col='Blue')
-})
-legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2, 
-       legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
-
-## Saving to file
-dev.copy(png, file="plot3.png", height=480, width=480)
+png("plot3.png", width=480, height=480)
+plot(datetime, SUBmet1, type="l", ylab="Energy Submetering", xlab="")
+lines(datetime, SUBmet2, type="l", col="red")
+lines(datetime, SUBmet3, type="l", col="blue")
+legend("topright", c("SUB_met_1", "SUB_met_2", "SUB_met_3"), lty=1, lwd=2.5, col=c("black", "red", "blue"))
 dev.off()
