@@ -1,6 +1,6 @@
 DATAdown <- "./data/household_power_consumption.txt"
-DATAread <- read.table(dataFile, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
-SUBdata <- data[data$Date %in% c("1/2/2007","2/2/2007") ,]
+DATAread <- read.table(DATAdown, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
+SUBdata <- DATAdown[DATAdown$Date %in% c("1/2/2007","2/2/2007") ,]
 
 datetime <- strptime(paste(SUBdata$Date, SUBdata$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
 globalActivePower <- as.numeric(SUBdata$Global_active_power)
